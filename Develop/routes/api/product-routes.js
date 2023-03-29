@@ -43,15 +43,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create new product 
-  /* req.body should look like this...
-    {
-      product_name: "Basketball",
-      price: 200.00,
-      stock: 3,
-      tagIds: [1, 2, 3, 4]
-    }
-  */
+
  router.post('/:id', async (req, res) => { 
   Product.create(req.body)
     .then((product) => {
@@ -120,6 +112,13 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  Category.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((category) => res.status(200).json(category))
+    .catch((err) => res.status(400).json(err));
 });
 
 module.exports = router;
